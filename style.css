@@ -52,6 +52,7 @@ body{
 }
 .weather{
     margin-top: 30px;
+    display: none;
 }
 .weather-icon{
     margin-top: 30px;
@@ -84,3 +85,18 @@ body{
     width: 40px;
     margin-right: 10px;
 }
+
+.error{
+    margin-top: 30px;
+    display: none;
+}
+.error p{
+    font-size: 25px;
+    display: inline-block;
+
+    background-color: #ff3b3b;
+    padding: 10px 15px;
+    border-radius: 50rem;
+    outline: 5px solid #eb7575;
+}
+

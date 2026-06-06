@@ -9,13 +9,17 @@ body{
 }
 .panel{
     width: 90%;
-    max-width: 470px;
+    max-width: 470px;;
     background: linear-gradient(135deg, #00feba, #5b548a);
     margin: 100px auto;
     border-radius: 24px;
     padding: 20px;
     color: #fff;
     text-align: center;
+
+    height: 130px;
+    overflow-y: hidden;
+    transition: height 0.4s ease;
 }
 
 .search{
@@ -52,7 +56,6 @@ body{
 }
 .weather{
     margin-top: 30px;
-    display: none;
 }
 .weather-icon{
     margin-top: 30px;

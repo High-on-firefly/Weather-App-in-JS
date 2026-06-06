@@ -73,6 +73,7 @@ function renderUI(data){
     }
 }
 
+//Animations
 function expandPanel(){
     panel.style.height = panel.scrollHeight + "px";
 }
@@ -102,6 +103,7 @@ function changeCity(city, newCity){
     }, 300)
 }
 
+//sending API data to render function
 async function  checkWeather(city) {
     city = city.trim();
 

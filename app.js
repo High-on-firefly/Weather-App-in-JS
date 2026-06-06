@@ -1,3 +1,5 @@
+import { animateInt } from "./animation.js";
+
 //API
 const apiKey = "b790b03735c3448c9a2a8215bccaa62e";
 const apiUrl = "https://api.openweathermap.org/data/2.5/weather?units=metric&q=";
@@ -18,6 +20,7 @@ const windEl = document.querySelector(".wind");
 const error = document.querySelector(".error");
 const weather = document.querySelector(".weather");
 
+
 const weatherIcons = {
     Clouds: "images/clouds.png",
     Clear: "images/clear.png",
@@ -30,21 +33,73 @@ const weatherIcons = {
 //API call
 async function fetchWeather(city){
     const response = await fetch(`${apiUrl}${city}&appid=${apiKey}`);
+    if(!response.ok){
+        return null;
+    }
     return await response.json();
 }
 
 //Rendering/Updating UI
 function renderUI(data){
-    cityEl.textContent = data.name;
-    tempEl.textContent = Math.round(data.main.temp)+ "°C";
-    humidityEl.textContent = data.main.humidity+ " %";
-    windEl.textContent = data.wind.speed+ " km/h";
+    const temp = Math.round(data.main.temp);
+    const condition = data.weather[0].main;
 
-    weatherIcon.src = weatherIcons[data.weather[0].main];
+    changeCity(cityEl, data.name);
+    animateInt(parseInt(tempEl.textContent), temp, 800, value =>{
+        tempEl.textContent = value + "°C"
+    })
+    animateInt(parseInt(humidityEl.textContent), data.main.humidity, 800, value =>{
+        humidityEl.textContent = value+ "%"
+    })
+    animateInt(parseInt(windEl.textContent), data.wind.speed, 800, value =>{
+        windEl.textContent = value+ "km/h"
+    })
+    changeWeatherIcon(weatherIcon, weatherIcons[condition]);
+
+    if (condition === "Rain") {
+        panel.style.background = "linear-gradient(135deg, #3a7bd5, #000428)";
+    }
+        else if (condition === "Snow") {
+        panel.style.background = "linear-gradient(135deg, #e0eafc, #cfdef3)";
+    }
+    else if (temp > 30) {
+        panel.style.background = "linear-gradient(135deg, #ff512f, #f09819)";
+    }
+    else if (temp > 20) {
+        panel.style.background = "linear-gradient(135deg, #00feba, #3520bd)";
+    }
+    else {
+        panel.style.background = "linear-gradient(135deg, #1e3c72, #2a5298)";
+    }
 }
 
 function expandPanel(){
     panel.style.height = panel.scrollHeight + "px";
+}
+
+function changeWeatherIcon(img, newSrc) {
+    const currentSrc = new URL(img.src).pathname;
+
+    if (currentSrc.endsWith(newSrc)) return;
+
+    img.style.opacity = 0;
+
+    setTimeout(() => {
+        img.src = newSrc;
+        img.style.opacity = 1;
+    }, 300);
+}
+function changeCity(city, newCity){
+    const currentCity = city.textContent;
+
+    if(currentCity.endsWith(newCity)) return;
+
+    city.style.opacity = 0;
+
+    setTimeout(()=>{
+        city.textContent = newCity;
+        city.style.opacity = 1;
+    }, 300)
 }
 
 async function  checkWeather(city) {
@@ -52,14 +107,16 @@ async function  checkWeather(city) {
 
     if(!city){
         panel.style.height = "130px";
-        return
+        return;
     };
 
     const data = await fetchWeather(city);
 
+    if(!data)return;
+
     renderUI(data);
 
-    requestAnimationFrame(() => {
+    requestAnimationFrame(() =>{
         expandPanel();
     });
 }
@@ -72,5 +129,3 @@ searchBox.addEventListener("keydown", (event) => {
     if(event.key === "Enter")
         checkWeather(searchBox.value);
 })
-
-//

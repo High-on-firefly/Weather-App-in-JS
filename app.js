@@ -57,19 +57,19 @@ function renderUI(data){
     changeWeatherIcon(weatherIcon, weatherIcons[condition]);
 
     if (condition === "Rain") {
-        panel.style.background = "linear-gradient(135deg, #3a7bd5, #000428)";
+        changeBackgroundGradient(panel, "135deg", "#3a7bd5", "#000428");
     }
         else if (condition === "Snow") {
-        panel.style.background = "linear-gradient(135deg, #e0eafc, #cfdef3)";
+        changeBackgroundGradient(panel, "135deg", "#e0eafc", "#cfdef3");
     }
     else if (temp > 30) {
-        panel.style.background = "linear-gradient(135deg, #ff512f, #f09819)";
+        changeBackgroundGradient(panel, "135deg", "#ff512f", "#f09819");
     }
     else if (temp > 20) {
-        panel.style.background = "linear-gradient(135deg, #00feba, #3520bd)";
+        changeBackgroundGradient(panel, "135deg", "#00feba", "#3520bd");
     }
     else {
-        panel.style.background = "linear-gradient(135deg, #1e3c72, #2a5298)";
+        changeBackgroundGradient(panel, "135deg", "#1e3c72", "#2a5298");
     }
 }
 
@@ -101,6 +101,11 @@ function changeCity(city, newCity){
         city.textContent = newCity;
         city.style.opacity = 1;
     }, 300)
+}
+function changeBackgroundGradient(element, deg, col1, col2){
+        element.style.setProperty("--angle", deg);
+        element.style.setProperty("--col1", col1);
+        element.style.setProperty("--col2", col2);
 }
 
 //sending API data to render function

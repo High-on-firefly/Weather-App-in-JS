@@ -10,7 +10,7 @@ body{
 .panel{
     width: 90%;
     max-width: 470px;;
-    background: linear-gradient(135deg, #00feba, #3520bd);
+    background: linear-gradient(var(--angle), var(--col1), var(--col2));
     margin: 100px auto;
     border-radius: 24px;
     padding: 20px;
@@ -19,7 +19,7 @@ body{
 
     height: 130px;
     overflow-y: hidden;
-    transition: height 0.4s ease;
+    transition: height 0.4s ease, --angle 0.5s linear, --col1 0.5s ease, --col2 0.5s ease;
 }
 
 .search{
@@ -91,6 +91,22 @@ body{
 .col img{
     width: 40px;
     margin-right: 10px;
+}
+
+@property --angle{
+    syntax: "<angle>";
+    initial-value: 135deg;
+    inherits: false;
+}
+@property --col1 {
+  syntax: '<color>';
+  inherits: false;
+  initial-value: #00feba;
+}
+@property --col2 {
+  syntax: '<color>';
+  inherits: false;
+  initial-value: #3520bd;
 }
 
 
